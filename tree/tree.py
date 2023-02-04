@@ -82,7 +82,7 @@ class BinaryDecisionTreeClassifier:
 
     def _create_subtree_from_names_list(self, names_list):
         if len(names_list) == 0:
-            return None
+            return Node()
 
         if len(names_list) == 1:
             return Node(names_list[0])
