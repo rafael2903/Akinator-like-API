@@ -57,9 +57,15 @@ class BinaryDecisionTreeClassifier:
             return
         self.root.print_node()
 
+    def _drop_features_with_same_values(self, X):
+        for feature in X.columns:
+            if len(set(X[feature])) == 1:
+                X = X.drop(feature, axis=1)
+        return X
+
     def _build_tree(self, X, y, depth=0):
+        X = self._drop_features_with_same_values(X)
         n_samples, n_features = X.shape
-        best_feature = self._choose_split_feature(X)
 
         if n_features == 0 and len(y) > 0:
             return BinaryDecisionTreeClassifier.create_subtree_from_names_list(y)
@@ -73,6 +79,7 @@ class BinaryDecisionTreeClassifier:
         if n_samples == 1:
             return Node(y[0])
 
+        best_feature = self._choose_split_feature(X)
         X_left, y_left, X_right, y_right = self._split_data(X, y, best_feature)
 
         left_subtree = self._build_tree(X_left, y_left, depth + 1)
@@ -93,7 +100,7 @@ class BinaryDecisionTreeClassifier:
         right_subtree = BinaryDecisionTreeClassifier.create_subtree_from_names_list(
             names_list[:1])
 
-        return Node(f"Seu personagem é {names_list[0]}?", left_subtree, right_subtree)
+        return Node(names_list[0], left_subtree, right_subtree)
 
     def _choose_split_feature(self, X):
         best_feature = None
