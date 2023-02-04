@@ -25,3 +25,25 @@ class Akinator:
             done = self._current_question.is_leaf()
             question = self._current_question.value
             return {"question": question, "done": done}
+
+
+if __name__ == "__main__":
+    from tree import BinaryDecisionTreeClassifier
+
+    tree = BinaryDecisionTreeClassifier('tree.json')
+    akinator = Akinator(tree)
+
+    possible_answers = {
+        "n": -1,
+        "s": 1,
+    }
+
+    while True:
+        print(f"É {akinator.current_question['question']}?")
+        answer = input('s/n: ')
+        answer = possible_answers[answer]
+        akinator.answer_question(answer)
+
+        if akinator.current_question['done']:
+            print(akinator.current_question['question'])
+            break
