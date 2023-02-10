@@ -60,7 +60,7 @@ class BinaryDecisionTreeClassifier:
     def _drop_features_with_same_values(self, X):
         for feature in X.columns:
             if len(set(X[feature])) == 1:
-                X = X.drop(feature, axis=1)
+                X = X.drop(columns=feature)
         return X
 
     def _build_tree(self, X, y, depth=0):
@@ -120,7 +120,8 @@ class BinaryDecisionTreeClassifier:
         left_idx, = np.where(X[best_feature] == -1)
         right_idx, = np.where(X[best_feature] == 1)
 
-        X = X.drop(best_feature, axis=1)
+        X = X.drop(columns=best_feature)
+
         X_left = X.iloc[left_idx]
         X_right = X.iloc[right_idx]
 

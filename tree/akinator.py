@@ -1,8 +1,13 @@
 class Akinator:
+    id = 0
 
     def __init__(self, tree=None):
         if tree and not tree.root:
             raise ValueError("Tree has not been trained yet")
+
+        self.id = Akinator.id
+        Akinator.id += 1
+
         self._current_question = tree.root if tree else None
 
     def answer_question(self, answer):
