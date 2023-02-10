@@ -24,12 +24,16 @@ class Akinator:
 
         return self.current_question
 
+    def add_person(self, name, feature):
+        if self.current_question['done']:
+            pass
+
     @property
     def current_question(self):
         if self._current_question:
             done = self._current_question.is_leaf()
             question = self._current_question.value
-            return {"question": question, "done": done}
+            return {"question": question, "done": done, "progress": 0.33}
 
 
 if __name__ == "__main__":
