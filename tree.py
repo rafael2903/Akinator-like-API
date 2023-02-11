@@ -152,3 +152,14 @@ class BinaryDecisionTreeClassifier:
 
     def drop(self):
         self.root = None
+
+    @staticmethod
+    def get_max_depth_from_node(node):
+        if node.value is None:
+            return 0
+
+        if node.is_leaf():
+            return 1
+
+        return 1 + max(BinaryDecisionTreeClassifier.get_max_depth_from_node(node.left),
+                       BinaryDecisionTreeClassifier.get_max_depth_from_node(node.right))

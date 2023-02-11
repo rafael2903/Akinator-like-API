@@ -1,3 +1,6 @@
+from tree import BinaryDecisionTreeClassifier, Node
+
+
 class Akinator:
     id = 0
 
@@ -8,6 +11,7 @@ class Akinator:
         self.id = Akinator.id
         Akinator.id += 1
 
+        self.current_node_depth = 0
         self._current_question = tree.root if tree else None
 
     def answer_question(self, answer):
@@ -22,22 +26,38 @@ class Akinator:
         else:
             self._current_question = self._current_question.right
 
+        self.current_node_depth += 1
+
         return self.current_question
 
     def add_person(self, name, feature):
-        if self.current_question['done']:
-            pass
+        if not self.current_question['done']:
+            return
+
+        old_person = Node(self._current_question.value)
+        new_person = Node(name)
+
+        self._current_question.value = feature
+        self._current_question.left = old_person
+        self._current_question.right = new_person
+
+    def get_progress(self):
+        sub_tree_depth = BinaryDecisionTreeClassifier.get_max_depth_from_node(
+            self._current_question) - 1
+        total_depth = self.current_node_depth + sub_tree_depth
+        progress = self.current_node_depth / total_depth
+        return round(progress, 2)
 
     @property
     def current_question(self):
         if self._current_question:
             done = self._current_question.is_leaf()
             question = self._current_question.value
-            return {"question": question, "done": done, "progress": 0.33}
+            progress = self.get_progress()
+            return {"question": question, "done": done, "progress": progress}
 
 
 if __name__ == "__main__":
-    from tree import BinaryDecisionTreeClassifier
 
     tree = BinaryDecisionTreeClassifier('tree.json')
     akinator = Akinator(tree)
