@@ -1,10 +1,18 @@
 from akinator import Akinator
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-
 from tree import BinaryDecisionTreeClassifier
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 tree = BinaryDecisionTreeClassifier('tree.json')
 
@@ -43,6 +51,7 @@ def answer(session_id: int, body: AnswerBody):
 def add_person(session_id: int, body: AddPersonBody):
     akinator = sessions[session_id]
     akinator.add_person(body.name, body.feature)
+
 
 @app.post("/continue/{session_id}")
 def continue_game(session_id: int):
