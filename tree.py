@@ -1,5 +1,6 @@
 import jsons
 import numpy as np
+from treelib import Node, Tree
 
 
 class Node:
@@ -11,21 +12,6 @@ class Node:
 
     def is_leaf(self):
         return self.right is None and self.left is None
-
-    def print_node(self, depth=0):
-        if self is None:
-            return
-
-        if self.is_leaf():
-            print("  "*depth + "Leaf Node:", self.value)
-            return
-
-        print("  "*depth + "Left:")
-        self.left.print_node(depth+1)
-        print("  "*depth + "Right:")
-        self.right.print_node(depth+1)
-        print("  "*depth + "depth:", depth)
-        print("  "*depth + "value:", self.value)
 
     @staticmethod
     def from_dict(dict):
@@ -55,7 +41,22 @@ class BinaryDecisionTreeClassifier:
     def print_tree(self):
         if self.root is None:
             return
-        self.root.print_node()
+
+        treelibTree = Tree()
+        BinaryDecisionTreeClassifier.createTreelibTree(treelibTree, self.root)
+        treelibTree.show()
+
+    @staticmethod
+    def createTreelibTree(tree, node, parent=None):
+        if parent is None:
+            tree.create_node(node.value, node)
+        else:
+            tree.create_node(node.value, node, parent=parent)
+        if node.left is not None:
+            BinaryDecisionTreeClassifier.createTreelibTree(tree, node.left, node)
+        if node.right is not None:
+            BinaryDecisionTreeClassifier.createTreelibTree(tree, node.right, node)
+
 
     def _drop_features_with_same_values(self, X):
         for feature in X.columns:
