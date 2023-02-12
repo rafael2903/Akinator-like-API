@@ -40,7 +40,7 @@ class Akinator:
         old_person = Node(self._current_question.value)
         new_person = Node(name)
 
-        self._current_question.value = feature
+        self._current_question.value = f"É {feature.lower()}?"
         self._current_question.left = old_person
         self._current_question.right = new_person
 
