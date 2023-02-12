@@ -103,7 +103,7 @@ class BinaryDecisionTreeClassifier:
         right_subtree = BinaryDecisionTreeClassifier.create_subtree_from_names_list(
             names_list[:1], depth=depth+1)
 
-        return Node(names_list[0], left_subtree, right_subtree, depth=depth)
+        return Node(f"É {names_list[0]}?", left_subtree, right_subtree, depth=depth)
 
     def _choose_split_feature(self, X):
         best_feature = None
