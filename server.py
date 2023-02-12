@@ -43,3 +43,8 @@ def answer(session_id: int, body: AnswerBody):
 def add_person(session_id: int, body: AddPersonBody):
     akinator = sessions[session_id]
     akinator.add_person(body.name, body.feature)
+
+@app.post("/continue/{session_id}")
+def continue_game(session_id: int):
+    akinator = sessions[session_id]
+    return akinator.continue_game()

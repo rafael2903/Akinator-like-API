@@ -5,22 +5,23 @@ from treelib import Node, Tree
 
 class Node:
 
-    def __init__(self, value=None, left=None, right=None):
+    def __init__(self, value=None, left=None, right=None, depth=0):
         self.value = value
         self.left = left
         self.right = right
+        self.depth = depth
 
     def is_leaf(self):
         return self.right is None and self.left is None
 
     @staticmethod
-    def from_dict(dict):
+    def from_dict(dict, depth=0):
         if dict is None:
             return None
 
-        node = Node(dict['value'])
-        node.right = Node.from_dict(dict['right'])
-        node.left = Node.from_dict(dict['left'])
+        node = Node(dict['value'], depth=depth)
+        node.right = Node.from_dict(dict['right'], depth=depth + 1)
+        node.left = Node.from_dict(dict['left'], depth=depth + 1)
         return node
 
 
@@ -53,10 +54,11 @@ class BinaryDecisionTreeClassifier:
         else:
             tree.create_node(node.value, node, parent=parent)
         if node.left is not None:
-            BinaryDecisionTreeClassifier.createTreelibTree(tree, node.left, node)
+            BinaryDecisionTreeClassifier.createTreelibTree(
+                tree, node.left, node)
         if node.right is not None:
-            BinaryDecisionTreeClassifier.createTreelibTree(tree, node.right, node)
-
+            BinaryDecisionTreeClassifier.createTreelibTree(
+                tree, node.right, node)
 
     def _drop_features_with_same_values(self, X):
         for feature in X.columns:
@@ -69,16 +71,16 @@ class BinaryDecisionTreeClassifier:
         n_samples, n_features = X.shape
 
         if n_features == 0 and len(y) > 0:
-            return BinaryDecisionTreeClassifier.create_subtree_from_names_list(y)
+            return BinaryDecisionTreeClassifier.create_subtree_from_names_list(y, depth=depth)
 
         if n_features == 0 and len(y) == 1:
-            return Node(y[0])
+            return Node(y[0], depth=depth)
 
         if len(y) == 0:
             return Node()
 
         if n_samples == 1:
-            return Node(y[0])
+            return Node(y[0], depth=depth)
 
         best_feature = self._choose_split_feature(X)
         X_left, y_left, X_right, y_right = self._split_data(X, y, best_feature)
@@ -86,22 +88,22 @@ class BinaryDecisionTreeClassifier:
         left_subtree = self._build_tree(X_left, y_left, depth + 1)
         right_subtree = self._build_tree(X_right, y_right, depth + 1)
 
-        return Node(best_feature, left_subtree, right_subtree)
+        return Node(best_feature, left_subtree, right_subtree, depth=depth)
 
     @staticmethod
-    def create_subtree_from_names_list(names_list):
+    def create_subtree_from_names_list(names_list, depth=0):
         if len(names_list) == 0:
             return Node()
 
         if len(names_list) == 1:
-            return Node(names_list[0])
+            return Node(names_list[0], depth=depth)
 
         left_subtree = BinaryDecisionTreeClassifier.create_subtree_from_names_list(
-            names_list[1:])
+            names_list[1:], depth=depth+1)
         right_subtree = BinaryDecisionTreeClassifier.create_subtree_from_names_list(
-            names_list[:1])
+            names_list[:1], depth=depth+1)
 
-        return Node(names_list[0], left_subtree, right_subtree)
+        return Node(names_list[0], left_subtree, right_subtree, depth=depth)
 
     def _choose_split_feature(self, X):
         best_feature = None
@@ -164,3 +166,17 @@ class BinaryDecisionTreeClassifier:
 
         return 1 + max(BinaryDecisionTreeClassifier.get_max_depth_from_node(node.left),
                        BinaryDecisionTreeClassifier.get_max_depth_from_node(node.right))
+
+    @staticmethod
+    def get_deepest_subtree(node):
+        if node.is_leaf():
+            return node
+
+        left = BinaryDecisionTreeClassifier.get_max_depth_from_node(node.left)
+        right = BinaryDecisionTreeClassifier.get_max_depth_from_node(
+            node.right)
+
+        if left > right:
+            return 'left', node.left
+        else:
+            return 'right', node.right
