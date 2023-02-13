@@ -37,9 +37,9 @@ class Akinator:
         if not self._current_question.is_leaf():
             return
 
-        nex_depth = self._current_question.depth + 1
-        old_person = Node(self._current_question.value, depth=nex_depth)
-        new_person = Node(name, depth=nex_depth)
+        next_depth = self._current_question.depth + 1
+        old_person = Node(self._current_question.value, depth=next_depth)
+        new_person = Node(name, depth=next_depth)
 
         self._current_question.value = f"É {feature.lower()}?"
         self._current_question.left = old_person
