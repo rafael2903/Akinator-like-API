@@ -15,7 +15,7 @@ API para sistema de adivinhação de pessoas a partir de perguntas e respostas, 
 
 ## Rotas
 
-A documentação das rotas da API está disponível em https://zcnj6e.deta.dev/docs
+A documentação das rotas da API está disponível em https://akinatorapi-1-g4100243.deta.app/docs
 
 ## Exemplo de cliente
 
