@@ -5,11 +5,16 @@ API para sistema de adivinhação de pessoas a partir de perguntas e respostas, 
 ## Rodando localmente
 
 - Instale as dependênicas com `pip install -r requirements.txt`
-- Inicie o servidor `uvicorn server:app --reload`
-
-ou
-- Rode pelo terminal `python akinator.py`
+- Inicie o servidor com `uvicorn server:app --reload` ou utilize a interface de terminal com `python akinator.py`
 
 ## Rotas
 
 A documentação das rotas da API está disponível em https://zcnj6e.deta.dev/docs
+
+## Exemplo de cliente
+
+Exemplo de cliente web que consome essa api
+
+URL: https://rotanika.vercel.app/
+
+Repositório: https://github.com/anapaulaonc/rotanika
