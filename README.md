@@ -12,4 +12,4 @@ ou
 
 ## Rotas
 
-A documentação das rotas dsa API está disponível em https://zcnj6e.deta.dev/docs
+A documentação das rotas da API está disponível em https://zcnj6e.deta.dev/docs
