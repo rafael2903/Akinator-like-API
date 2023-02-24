@@ -4,7 +4,7 @@ API para sistema de adivinhação de pessoas a partir de perguntas e respostas, 
 
 ## Funcionalidades
 
-- Responder sim, não ou não sei para as perguntas.
+- Pode-se responder sim, não ou não sei para as perguntas.
 - Indicação da porcetagem de perguntas já feitas e de quantas faltam para a adivinhação.
 - Adicionar uma nova pessoa que não está na base de dados junto com uma característica que a diferencie.
 
