@@ -4,14 +4,15 @@ from tree import BinaryDecisionTreeClassifier, Node
 class Akinator:
     id = 0
 
-    def __init__(self, tree=None):
-        if tree and not tree.root:
+    def __init__(self, tree):
+        if not tree.root:
             raise ValueError("Tree has not been trained yet")
 
         self.id = Akinator.id
         Akinator.id += 1
 
-        self._current_question = tree.root if tree else None
+        self.tree = tree
+        self._current_question = tree.root
         self.not_sure_nodes = []
 
     def answer_question(self, answer):
@@ -44,6 +45,8 @@ class Akinator:
         self._current_question.value = f"É {feature.lower()}?"
         self._current_question.left = old_person
         self._current_question.right = new_person
+
+        self.tree.dump()
 
     def get_progress(self):
         sub_tree_depth = BinaryDecisionTreeClassifier.get_max_depth_from_node(
