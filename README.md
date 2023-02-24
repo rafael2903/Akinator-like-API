@@ -17,7 +17,7 @@ API para sistema de adivinhação de pessoas a partir de perguntas e respostas, 
 
 A documentação das rotas da API está disponível em https://akinatorapi-1-g4100243.deta.app/docs
 
-## Exemplo de cliente
+## Demo
 
 Exemplo de cliente web que consome essa api
 
