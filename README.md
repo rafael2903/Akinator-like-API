@@ -2,6 +2,9 @@
 
 API para sistema de adivinhação de pessoas a partir de perguntas e respostas, estilo o site Akinator. O sistema possui um banco de dados com características de 824 pessoas famosas e faz perguntas para tentar adivinhar a pessoa que o usuário pensou.
 
+## API
+A API está disponível no endereço https://akinatorapi-1-g4100243.deta.app
+
 ## Funcionalidades
 
 - Pode-se responder sim, não ou não sei para as perguntas.
